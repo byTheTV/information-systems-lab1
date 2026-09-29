@@ -68,6 +68,6 @@ npm run dev
 ## Материалы отчёта
 
 - Текст задания: `docs/assignment.md`
-- Диаграмма классов: `docs/uml-classes.puml`
-- Диаграмма пакетов: `docs/uml-packages.puml`
+- Диаграмма классов: `docs/uml-classes.png`
+- Диаграмма пакетов: `docs/uml-packages.png`
 - Выводы: `docs/conclusions.md`
