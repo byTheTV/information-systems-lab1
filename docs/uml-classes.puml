@@ -1,0 +1,95 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+
+package "entity" {
+  class LabWork
+  class Coordinates
+  class Discipline
+  class Person
+  class Location
+  enum Difficulty
+  enum Color
+  enum Country
+  class AppUser
+  class UserSession
+}
+
+package "dao" {
+  class LabWorkDao
+  class CatalogDao
+  class UserDao
+  class SpecialOperationDao
+}
+
+package "service" {
+  class LabWorkService
+  class CatalogService
+  class AuthService
+  class SpecialOperationService
+  class LabWorkMapper
+  class ChangeEvent
+}
+
+package "rest" {
+  class LabWorkResource
+  class CatalogResource
+  class AuthResource
+  class SpecialResource
+  class AuthFilter
+  class AdminFilter
+}
+
+package "ws" {
+  class UpdateEndpoint
+  class UpdateHub
+  class UpdateBroadcaster
+}
+
+package "security" {
+  class PasswordHasher
+  class RequestUser
+  class AdminOnly
+}
+
+LabWork --> Coordinates
+LabWork --> Discipline
+LabWork --> Person
+LabWork --> Difficulty
+Person --> Location
+Person --> Color
+Person --> Country
+Discipline "1" o-- "0..*" LabWork : program
+
+LabWorkDao --> LabWork
+CatalogDao --> Coordinates
+CatalogDao --> Discipline
+CatalogDao --> Person
+CatalogDao --> Location
+UserDao --> AppUser
+UserDao --> UserSession
+SpecialOperationDao ..> LabWork : native SQL functions
+
+LabWorkService --> LabWorkDao
+LabWorkService --> CatalogDao
+LabWorkService --> LabWorkMapper
+LabWorkService --> ChangeEvent : fire
+CatalogService --> CatalogDao
+AuthService --> UserDao
+AuthService --> PasswordHasher
+SpecialOperationService --> SpecialOperationDao
+SpecialOperationService --> ChangeEvent : fire
+
+LabWorkResource --> LabWorkService
+CatalogResource --> CatalogService
+AuthResource --> AuthService
+SpecialResource --> SpecialOperationService
+AuthFilter --> AuthService
+AdminFilter ..> AdminOnly
+
+UpdateEndpoint --> AuthService
+UpdateEndpoint --> UpdateHub
+UpdateBroadcaster --> UpdateHub
+UpdateBroadcaster --> ChangeEvent : observes AFTER_SUCCESS
+UserSession --> AppUser
+@enduml

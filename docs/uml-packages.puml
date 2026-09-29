@@ -1,0 +1,32 @@
+@startuml
+skinparam componentStyle rectangle
+
+package "ru.islab.labwork.rest" as rest
+package "ru.islab.labwork.ws" as ws
+package "ru.islab.labwork.service" as service
+package "ru.islab.labwork.dao" as dao
+package "ru.islab.labwork.entity" as entity
+package "ru.islab.labwork.dto" as dto
+package "ru.islab.labwork.security" as security
+package "ru.islab.labwork.config" as config
+package "ru.islab.labwork.error" as error
+component "React UI" as ui
+
+ui --> rest : HTTP /api
+ui --> ws : WebSocket /ws/updates
+rest --> service
+rest --> dto
+rest --> security
+rest --> error
+ws --> service
+ws --> security
+service --> dao
+service --> dto
+service --> entity
+service --> security
+service --> error
+dao --> entity
+config --> service
+config --> dao
+config --> entity
+@enduml
